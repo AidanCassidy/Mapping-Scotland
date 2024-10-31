@@ -1,0 +1,35 @@
+
+install.packages("sf")
+
+
+
+# Load necessary libraries
+library(sf)
+library(ggplot2)
+library(dplyr)
+
+# Download the Scotland shapefile
+# url <- "https://borders.ukdataservice.ac.uk/shapefiles/scotland_local_authority.zip"
+# temp <- tempfile()
+# download.file(url, temp)
+
+# Unzip the shapefile
+unzip("LA_SF.zip", exdir = tempdir())
+shapefile_path <- list.files(tempdir(), pattern = "\\.shp$", full.names = TRUE)
+
+# Read the shapefile
+scotland_sf <- st_read(shapefile_path)
+
+# Add a random 'Result %' variable (between 75% and 99%) for each local authority
+set.seed(123) # for reproducibility
+scotland_sf <- scotland_sf %>%
+  mutate(`Result %` = runif(n(), min = 75, max = 99))
+
+# Plot the map with ggplot
+ggplot(data = scotland_sf) +
+  geom_sf(aes(fill = `Result %`)) +
+  geom_sf_text(aes(label = paste(local_auth, "\n", round(`Result %`, 1), "%")), size = 3) +  # Add labels
+  scale_fill_gradient(low = "lightblue", high = "darkblue", name = "Result %") +
+  labs(title = "Scotland Local Authorities with Random 'Result %'",
+       subtitle = "Values range from 75% to 99%") +
+  theme_minimal()
