@@ -9,7 +9,7 @@ library(ggplot2)
 library(dplyr)
 
 # Download the Scotland shapefile
-# url <- "https://borders.ukdataservice.ac.uk/shapefiles/scotland_local_authority.zip"
+# url <- "https://github.com/AidanCassidy/Mapping-Scotland/blob/main/Local_Authority_Boundaries_-_Scotland.zip"
 # temp <- tempfile()
 # download.file(url, temp)
 
